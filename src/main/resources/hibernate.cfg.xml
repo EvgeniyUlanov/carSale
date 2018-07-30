@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/carSale</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">784512963</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hbm2ddl.auto">create</property>
+
+        <mapping resource="ru/eulanov/models/car.hbm.xml"/>
+        <mapping resource="ru/eulanov/models/user.hbm.xml"/>
+        <mapping resource="ru/eulanov/models/announcement.hbm.xml"/>
+        <mapping resource="ru/eulanov/models/photo.hbm.xml"/>
+    </session-factory>
+</hibernate-configuration>

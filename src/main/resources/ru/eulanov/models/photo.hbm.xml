@@ -1,0 +1,15 @@
+<hibernate-mapping>
+    <class name="ru.eulanov.models.Photo" table="photos">
+        <id name="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name"/>
+        <property name="byteArray"/>
+        <many-to-one
+                name="announcement"
+                column="announcement_id"
+                not-null="true"
+                cascade="all"
+                class="ru.eulanov.models.Announcement"/>
+    </class>
+</hibernate-mapping>

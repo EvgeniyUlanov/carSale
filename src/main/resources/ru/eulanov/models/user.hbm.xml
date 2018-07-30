@@ -1,0 +1,14 @@
+<hibernate-mapping>
+    <class name="ru.eulanov.models.User" table="users">
+        <id name="id">
+            <generator class="identity"/>
+        </id>
+        <property name="name"/>
+        <property name="login"/>
+        <property name="password"/>
+        <bag name="announcements" table="announcements" inverse="true" cascade="all-delete-orphan">
+            <key column="user_id" not-null="true" on-delete="cascade"/>
+            <one-to-many class="ru.eulanov.models.Announcement"/>
+        </bag>
+    </class>
+</hibernate-mapping>
