@@ -6,6 +6,7 @@
         <property name="description"/>
         <property name="contactInfo"/>
         <property name="createdDate"/>
+        <property name="price"/>
         <bag name="photos" table="photos" inverse="true" cascade="all">
             <key column="announcement_id" not-null="true" on-delete="cascade"/>
             <one-to-many class="ru.eulanov.models.Photo"/>

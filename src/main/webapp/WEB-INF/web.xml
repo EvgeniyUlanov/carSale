@@ -22,4 +22,64 @@
         <servlet-name>App controller</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>User sign in servlet</servlet-name>
+        <servlet-class>ru.eulanov.servlets.SignInServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>User sign in servlet</servlet-name>
+        <url-pattern>/user/getByLogin</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>User sign out servlet</servlet-name>
+        <servlet-class>ru.eulanov.servlets.SignOutServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>User sign out servlet</servlet-name>
+        <url-pattern>/signOut</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Get current user login</servlet-name>
+        <servlet-class>ru.eulanov.servlets.GetCurrentUserServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Get current user login</servlet-name>
+        <url-pattern>/user/getCurrent</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Get all announcements servlet</servlet-name>
+        <servlet-class>ru.eulanov.servlets.GetAllAnnouncements</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Get all announcements servlet</servlet-name>
+        <url-pattern>/announcement/getAll</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Add new Announcement</servlet-name>
+        <servlet-class>ru.eulanov.servlets.AddNewAnnouncementServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Add new Announcement</servlet-name>
+        <url-pattern>/announcement/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Add new User</servlet-name>
+        <servlet-class>ru.eulanov.servlets.AddNewUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Add new User</servlet-name>
+        <url-pattern>/user/add</url-pattern>
+    </servlet-mapping>
 </web-app>

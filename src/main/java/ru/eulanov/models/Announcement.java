@@ -11,6 +11,7 @@ public class Announcement {
     private Car car;
     private User seller;
     private Timestamp createdDate;
+    private int price;
     private Collection<Photo> photos = new ArrayList<>();
 
     public Announcement() {
@@ -62,6 +63,14 @@ public class Announcement {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public Collection<Photo> getPhotos() {
