@@ -13,5 +13,9 @@
         <property name="enginePower"/>
         <property name="engineVolume"/>
         <property name="engineType"/>
+        <many-to-one name="announcement"
+                     column="announcement_id" on-delete="cascade"
+                     unique="true"
+                     not-null="true"/>
     </class>
 </hibernate-mapping>

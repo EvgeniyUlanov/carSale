@@ -6,13 +6,17 @@
         <property name="connection.username">postgres</property>
         <property name="connection.password">784512963</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
-        <property name="show_sql">false</property>
+        <property name="show_sql">true</property>
         <property name="format_sql">false</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping resource="ru/eulanov/models/car.hbm.xml"/>
-        <mapping resource="ru/eulanov/models/user.hbm.xml"/>
-        <mapping resource="ru/eulanov/models/announcement.hbm.xml"/>
-        <mapping resource="ru/eulanov/models/photo.hbm.xml"/>
+        <!--<mapping resource="ru/eulanov/models/car.hbm.xml"/>-->
+        <!--<mapping resource="ru/eulanov/models/user.hbm.xml"/>-->
+        <!--<mapping resource="ru/eulanov/models/announcement.hbm.xml"/>-->
+        <!--<mapping resource="ru/eulanov/models/photo.hbm.xml"/>-->
+        <mapping class="ru.eulanov.models.Car"/>
+        <mapping class="ru.eulanov.models.User"/>
+        <mapping class="ru.eulanov.models.Announcement"/>
+        <mapping class="ru.eulanov.models.Photo"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,5 +1,6 @@
 package ru.eulanov.servlets;
 
+import ru.eulanov.models.Announcement;
 import ru.eulanov.models.User;
 import ru.eulanov.utils.DaoContainer;
 
@@ -20,6 +21,7 @@ public class SignInServlet extends HttpServlet {
                 resp.getWriter().write("0");
             } else if (user.getPassword().equals(req.getParameter("password"))) {
                 session.setAttribute("currentUser", user);
+                session.setAttribute("currentAnnouncement", new Announcement());
                 resp.getWriter().write(user.getLogin());
             } else {
                 resp.getWriter().write("1");

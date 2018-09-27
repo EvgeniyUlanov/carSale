@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import java.util.Collection;
 import java.util.function.Function;
 
-public class BasicDao<T> {
+public abstract class BasicDao<T> {
 
     private final Class<T> entityClass;
     private SessionFactory sessionFactory;

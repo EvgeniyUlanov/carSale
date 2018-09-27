@@ -1,8 +1,16 @@
 package ru.eulanov.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name= "photos")
 public class Photo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "announcement_id")
     private Announcement announcement;
     private byte[] byteArray;
 

@@ -1,6 +1,5 @@
 package ru.eulanov.servlets;
 
-import com.google.gson.Gson;
 import ru.eulanov.models.Announcement;
 import ru.eulanov.models.Car;
 import ru.eulanov.utils.DaoContainer;
@@ -12,14 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
-public class GetAllAnnouncements extends HttpServlet {
+public class GetUserAnnouncementsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Collection<Announcement> list = DaoContainer.getInstance().getAnnouncementDao().getAllOpenAnnouncements();
+        Long userId = Long.parseLong(req.getParameter("userId"));
+        Collection<Announcement> announcements =
+                DaoContainer.getInstance().getAnnouncementDao().getUserAnnouncement(userId);
         StringBuilder json = new StringBuilder();
         json.append("[");
         boolean first = true;
-        for (Announcement announcement : list) {
+        for (Announcement announcement : announcements) {
             Car car = announcement.getCar();
             if (car != null) {
                 if (!first) {
@@ -30,9 +31,9 @@ public class GetAllAnnouncements extends HttpServlet {
                 json.append("{\"id\":\"" + announcement.getId() +
                         "\",\"carModel\":\"" + car.getModel() +
                         "\",\"carBrand\":\"" + car.getBrand() +
+                        "\",\"createDate\":\"" + announcement.getCreatedDate() +
                         "\",\"price\":\"" + announcement.getPrice() +
-                        "\",\"description\":\"" + announcement.getDescription() +
-                        "\",\"contact\":\"" + announcement.getContactInfo() +
+                        "\",\"isSold\":\"" + announcement.isSold() +
                         "\"}"
                 );
             }

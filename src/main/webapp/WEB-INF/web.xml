@@ -82,4 +82,74 @@
         <servlet-name>Add new User</servlet-name>
         <url-pattern>/user/add</url-pattern>
     </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Add photo</servlet-name>
+        <servlet-class>ru.eulanov.servlets.AddPhotoServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Add photo</servlet-name>
+        <url-pattern>/photo/add</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Get Image</servlet-name>
+        <servlet-class>ru.eulanov.servlets.GetImageServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Get Image</servlet-name>
+        <url-pattern>/image/get</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Get user announcements</servlet-name>
+        <servlet-class>ru.eulanov.servlets.GetUserAnnouncementsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Get user announcements</servlet-name>
+        <url-pattern>/announcement/getByUser</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Delete announcement</servlet-name>
+        <servlet-class>ru.eulanov.servlets.DeleteAnnouncementServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Delete announcement</servlet-name>
+        <url-pattern>/announcement/delete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Close announcement</servlet-name>
+        <servlet-class>ru.eulanov.servlets.CloseAnnouncementServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Close announcement</servlet-name>
+        <url-pattern>/announcement/close</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Get announcement</servlet-name>
+        <servlet-class>ru.eulanov.servlets.GetAnnouncementServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Get announcement</servlet-name>
+        <url-pattern>/announcement/get</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Update Announcement</servlet-name>
+        <servlet-class>ru.eulanov.servlets.UpdateAnnouncementServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Update Announcement</servlet-name>
+        <url-pattern>/announcement/update</url-pattern>
+    </servlet-mapping>
 </web-app>

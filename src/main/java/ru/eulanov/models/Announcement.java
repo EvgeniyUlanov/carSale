@@ -1,18 +1,33 @@
 package ru.eulanov.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Entity
+@Table(name = "announcements")
 public class Announcement {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String description;
     private String contactInfo;
+    @OneToOne(mappedBy = "announcement", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Car car;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", nullable = false)
     private User seller;
     private Timestamp createdDate;
     private int price;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "announcement")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Photo> photos = new ArrayList<>();
+    private boolean isSold;
 
     public Announcement() {
     }
@@ -79,5 +94,13 @@ public class Announcement {
 
     public void setPhotos(Collection<Photo> photos) {
         this.photos = photos;
+    }
+
+    public boolean isSold() {
+        return isSold;
+    }
+
+    public void setSold(boolean sold) {
+        isSold = sold;
     }
 }

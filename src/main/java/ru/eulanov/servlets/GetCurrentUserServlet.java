@@ -16,7 +16,9 @@ public class GetCurrentUserServlet extends HttpServlet {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("currentUser");
         if (user != null) {
-            resp.getWriter().write(user.getLogin());
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("utf-8");
+            resp.getWriter().write("{\"id\":" + user.getId() + ", \"login\":\"" + user.getLogin() + "\"}");
         } else {
             resp.getWriter().write("$undefined");
         }

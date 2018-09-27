@@ -8,7 +8,7 @@
         <many-to-one
                 name="announcement"
                 column="announcement_id"
-                not-null="true"
+                not-null="false"
                 cascade="all"
                 class="ru.eulanov.models.Announcement"/>
     </class>

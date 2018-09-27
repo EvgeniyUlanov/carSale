@@ -1,6 +1,12 @@
 package ru.eulanov.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "cars")
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String vin;
     private String brand;
@@ -12,6 +18,9 @@ public class Car {
     private int enginePower;
     private int engineVolume;
     private String engineType;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "announcement_id", nullable = false)
+    private Announcement announcement;
 
     public Car() {
     }
@@ -102,5 +111,13 @@ public class Car {
 
     public void setEngineType(String engineType) {
         this.engineType = engineType;
+    }
+
+    public Announcement getAnnouncement() {
+        return announcement;
+    }
+
+    public void setAnnouncement(Announcement announcement) {
+        this.announcement = announcement;
     }
 }

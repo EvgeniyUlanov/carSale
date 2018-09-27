@@ -1,13 +1,26 @@
 package ru.eulanov.models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Entity
+@Table(name="users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Column(unique = true)
     private String login;
     private String password;
+    @OneToMany(fetch = FetchType.EAGER,
+                cascade = CascadeType.PERSIST,
+                mappedBy = "seller")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Collection<Announcement> announcements = new ArrayList<>();
 
     public User() {
@@ -50,14 +63,28 @@ public class User {
     }
 
     public void setAnnouncements(Collection<Announcement> announcements) {
-        for (Announcement announcement : announcements) {
-            announcement.setSeller(this);
+        if (announcements != null) {
+            for (Announcement announcement : announcements) {
+                announcement.setSeller(this);
+            }
+            this.announcements = announcements;
+        } else {
+            this.announcements = new ArrayList<>();
         }
-        this.announcements = announcements;
     }
 
-    public void addAnnouncement(Announcement announcement) {
-        announcement.setSeller(this);
-        announcements.add(announcement);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        return login != null ? login.equals(user.login) : user.login == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return login != null ? login.hashCode() : 0;
     }
 }
