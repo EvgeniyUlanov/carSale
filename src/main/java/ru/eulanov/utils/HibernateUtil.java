@@ -5,7 +5,8 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-    private final static SessionFactory factory = buildSessionFactory();
+    private HibernateUtil() {
+    }
 
     private static SessionFactory buildSessionFactory() {
         try {
@@ -17,7 +18,7 @@ public class HibernateUtil {
         }
     }
 
-    public static SessionFactory getFactory() {
-        return factory;
+    public static SessionFactory getNewFactory() {
+        return buildSessionFactory();
     }
 }

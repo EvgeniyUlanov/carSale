@@ -103,4 +103,22 @@ public class Announcement {
     public void setSold(boolean sold) {
         isSold = sold;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Announcement)) return false;
+
+        Announcement that = (Announcement) o;
+
+        if (id != that.id) return false;
+        return description != null ? description.equals(that.description) : that.description == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
+    }
 }

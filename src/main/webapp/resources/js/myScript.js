@@ -137,11 +137,11 @@ function FillAnnouncements() {
         var divImage = $('<div>').addClass('image col-3').appendTo(divAnnoun);
         var divInfo = $('<div>').addClass('info col-4').appendTo(divAnnoun);
         var divDescription = $('<div>').addClass('descr col-5').appendTo(divAnnoun);
-        $('<p>').text('Brand: ' + announcement.carBrand).appendTo(divInfo);
-        $('<p>').text('Model: ' + announcement.carModel).appendTo(divInfo);
+        $('<p>').text('Brand: ' + announcement.car.brand).appendTo(divInfo);
+        $('<p>').text('Model: ' + announcement.car.model).appendTo(divInfo);
         $('<p>').text('Price: ' + announcement.price).appendTo(divInfo);
         $('<p>').text('Description: ' + announcement.description).appendTo(divDescription);
-        $('<p>').text('Contacts: ' + announcement.contact).appendTo(divDescription);
+        $('<p>').text('Contacts: ' + announcement.contactInfo).appendTo(divDescription);
         $('<p>').addClass('announId').text(announcement.id).hide().appendTo(divDescription);
         $('<button>').text('Details').addClass('details btn btn-primary').appendTo(divDescription);
         $('<hr>').addClass('splitter').appendTo(announList);
@@ -192,9 +192,12 @@ function getImage(announId, divImage) {
 }
 
 function GetAllAnnouncements() {
+    var filter = $('input[name=filter]:checked').val();
+    var searchingBrand = $('#searchingBrand').val();
     $.ajax({
         type: 'GET',
         url: $url + 'announcement/getAll',
+        data: {'filter': filter, 'searchingBrand': searchingBrand},
         async: false,
         success: function (response) {
             announcementList = response;
@@ -261,13 +264,13 @@ function FillUserAnnouncements() {
         type: 'GET',
         url: $url + 'announcement/getByUser',
         data: {'userId': userLogin.id},
-        success: function (responce) {
-            $.each(responce, function (index, announcement) {
+        success: function (response) {
+            $.each(response, function (index, announcement) {
                 var tr = $('<tr>').addClass('removable').appendTo($table);
                 $('<td>').addClass('announId').hide().text(announcement.id).appendTo(tr);
-                $('<td>').text(announcement.carBrand).appendTo(tr);
-                $('<td>').text(announcement.carModel).appendTo(tr);
-                $('<td>').text(announcement.createDate).appendTo(tr);
+                $('<td>').text(announcement.car.brand).appendTo(tr);
+                $('<td>').text(announcement.car.model).appendTo(tr);
+                $('<td>').text(announcement.createdDate).appendTo(tr);
                 $('<td>').text(announcement.price).appendTo(tr);
                 $('<td>').text(announcement.isSold).appendTo(tr);
                 var td = $('<td>').appendTo(tr);

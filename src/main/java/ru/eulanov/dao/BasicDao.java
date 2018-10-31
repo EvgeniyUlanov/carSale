@@ -67,6 +67,7 @@ public abstract class BasicDao<T> {
         try {
             return command.apply(session);
         } catch (Exception e) {
+            e.printStackTrace();
             transaction.rollback();
             throw e;
         } finally {

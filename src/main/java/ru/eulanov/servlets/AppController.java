@@ -1,5 +1,6 @@
 package ru.eulanov.servlets;
 
+import ru.eulanov.utils.DaoContainer;
 import ru.eulanov.utils.HibernateUtil;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,6 @@ public class AppController extends HttpServlet {
 
     @Override
     public void destroy() {
-        HibernateUtil.getFactory().close();
+        DaoContainer.getInstance().closeFactory();
     }
 }

@@ -50,6 +50,13 @@
 </div>
 
 <div class="container content" id="announcements">
+    <div id="filter">
+        <p><input type="radio" name="filter" value="all" checked>All announcement</p>
+        <p><input type="radio" name="filter" value="last_day">For the last day</p>
+        <p><input type="radio" name="filter" value="brand">By brand <input id="searchingBrand"></p>
+        <p><input type="radio" name="filter" value="with_photo">With photo</p>
+        <p><input type="button" value="Filter" onclick="FillAnnouncements()"></p>
+    </div>
     <div id="usersTable">
         <h1>Announcements of car sale</h1>
         <div id="announcementsList"></div>

@@ -1,6 +1,7 @@
 package ru.eulanov.servlets;
 
 import com.google.gson.Gson;
+import ru.eulanov.dto.AnnouncementDTO;
 import ru.eulanov.models.Announcement;
 import ru.eulanov.utils.DaoContainer;
 
@@ -17,11 +18,9 @@ public class GetAnnouncementServlet extends HttpServlet {
         Long announcementId = Long.parseLong(req.getParameter("announcementId"));
         Announcement announcement = DaoContainer.getInstance().getAnnouncementDao().getById(announcementId);
         if (announcement != null) {
-            announcement.setSeller(null);
-            announcement.getCar().setAnnouncement(null);
-            announcement.setPhotos(null);
+            AnnouncementDTO announcementDTO = AnnouncementDTO.createFromAnnouncement(announcement);
             Gson gson = new Gson();
-            String announcementJson = gson.toJson(announcement);
+            String announcementJson = gson.toJson(announcementDTO);
             resp.setContentType("application/json");
             resp.setCharacterEncoding("utf-8");
             resp.getWriter().write(announcementJson);
