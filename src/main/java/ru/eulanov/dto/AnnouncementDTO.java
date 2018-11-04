@@ -17,7 +17,8 @@ public class AnnouncementDTO {
     private int price;
     private boolean isSold;
 
-    private AnnouncementDTO() {}
+    private AnnouncementDTO() {
+    }
 
     public static AnnouncementDTO createFromAnnouncement(Announcement announcement) {
         AnnouncementDTO announcementDTO = new AnnouncementDTO();
@@ -100,15 +101,15 @@ public class AnnouncementDTO {
 
     @Override
     public String toString() {
-        return "AnnouncementDTO{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", contactInfo='" + contactInfo + '\'' +
-                ", car=" + car +
-                ", seller=" + seller +
-                ", createdDate=" + createdDate +
-                ", price=" + price +
-                ", isSold=" + isSold +
-                '}';
+        return "AnnouncementDTO{"
+                + "id=" + id
+                + ", description='" + description + '\''
+                + ", contactInfo='" + contactInfo + '\''
+                + ", car=" + car
+                + ", seller=" + seller
+                + ", createdDate=" + createdDate
+                + ", price=" + price
+                + ", isSold=" + isSold
+                + '}';
     }
 }

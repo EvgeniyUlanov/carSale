@@ -3,7 +3,7 @@ package ru.eulanov.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name= "photos")
+@Table(name = "photos")
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

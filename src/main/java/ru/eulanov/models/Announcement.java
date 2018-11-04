@@ -106,12 +106,16 @@ public class Announcement {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Announcement)) return false;
-
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Announcement)) {
+            return false;
+        }
         Announcement that = (Announcement) o;
-
-        if (id != that.id) return false;
+        if (id != that.id) {
+            return false;
+        }
         return description != null ? description.equals(that.description) : that.description == null;
     }
 
