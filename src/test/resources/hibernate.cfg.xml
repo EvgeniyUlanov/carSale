@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:hsqldb:mem:carSale;sql.enforce_size=false</property>
+        <property name="connection.url">jdbc:hsqldb:mem:test;sql.enforce_size=false</property>
         <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
@@ -10,9 +10,9 @@
         <property name="format_sql">false</property>
         <property name="hbm2ddl.auto">update</property>
 
+        <mapping class="ru.eulanov.models.Announcement"/>
         <mapping class="ru.eulanov.models.Car"/>
         <mapping class="ru.eulanov.models.User"/>
-        <mapping class="ru.eulanov.models.Announcement"/>
         <mapping class="ru.eulanov.models.Photo"/>
     </session-factory>
 </hibernate-configuration>

@@ -8,34 +8,29 @@ import ru.eulanov.utils.HibernateUtil;
 
 import java.util.Collection;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
 public class AnnouncementDaoTest {
 
-    private static SessionFactory sessionFactory;
-    private static AnnouncementDao announcementDao;
-    private static UserDao userDao;
-    private static User user;
+    private final static SessionFactory sessionFactory = HibernateUtil.getNewFactory();
+    private final static AnnouncementDao announcementDao = new AnnouncementDao();
+    private final static UserDao userDao = new UserDao();
+    private final static User user = new User("nikolay");
 
     @BeforeClass
     public static void init() {
-        sessionFactory = HibernateUtil.getNewFactory();
-        announcementDao = new AnnouncementDao();
-        userDao = new UserDao();
         announcementDao.setSessionFactory(sessionFactory);
         userDao.setSessionFactory(sessionFactory);
-        user = new User();
-        user.setName("nikolay");
         userDao.create(user);
     }
 
     @AfterClass
     public static void close() {
         if (sessionFactory != null) {
-            if (userDao != null) {
-                userDao.delete(user.getId());
-            }
             sessionFactory.close();
         }
     }
@@ -60,7 +55,7 @@ public class AnnouncementDaoTest {
         announcementDao.delete(announcementId);
         expected = announcementDao.getById(announcementId);
 
-        assert expected == null;
+        assertThat(expected, is(nullValue()));
     }
 
     @Test
@@ -76,8 +71,8 @@ public class AnnouncementDaoTest {
 
         Collection<Announcement> announcements = announcementDao.getAll();
 
-        assert announcements.contains(firstAnnouncement);
-        assert announcements.contains(secondAnnouncement);
+        assertThat(announcements, hasItem(firstAnnouncement));
+        assertThat(announcements, hasItem(secondAnnouncement));
     }
 
     @Test
@@ -106,14 +101,14 @@ public class AnnouncementDaoTest {
         announcementDao.create(closedAnnouncement);
         Collection<Announcement> announcements = announcementDao.getAllOpenAnnouncements();
 
-        assertThat(announcements.contains(openAnnouncement), is(true));
-        assertThat(announcements.contains(closedAnnouncement), is(false));
+        assertThat(announcements, hasItem(openAnnouncement));
+        assertThat(announcements, not(hasItem(closedAnnouncement)));
     }
 
     @Test
     public void testGetAllUserAnnouncement() {
-        User ivan = new User();
-        ivan.setName("ivan");
+        User ivan = new User("ivan");
+        ivan.setId(3);
         userDao.create(ivan);
         Announcement ivanOpenAnnouncement = new Announcement();
         ivanOpenAnnouncement.setSeller(ivan);
@@ -128,9 +123,9 @@ public class AnnouncementDaoTest {
 
         Collection<Announcement> announcements = announcementDao.getUserAnnouncement(ivan.getId());
 
-        assertThat(announcements.contains(ivanOpenAnnouncement), is(true));
-        assertThat(announcements.contains(ivanClosedAnnouncement), is(true));
-        assertThat(announcements.contains(nikolaysAnnouncement), is(false));
+        assertThat(announcements, hasItem(ivanOpenAnnouncement));
+        assertThat(announcements, hasItem(ivanClosedAnnouncement));
+        assertThat(announcements, not(hasItem(nikolaysAnnouncement)));
 
         userDao.delete(ivan.getId());
     }

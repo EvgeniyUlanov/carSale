@@ -5,6 +5,7 @@ import org.junit.*;
 import ru.eulanov.models.User;
 import ru.eulanov.utils.HibernateUtil;
 
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -29,8 +30,7 @@ public class UserDaoTest {
 
     @Test
     public void testCreateGetDeleteUser() {
-        User user = new User();
-        user.setName("ivan");
+        User user = new User("ivan");
         userDao.create(user);
 
         User expectedUser = userDao.getById(user.getId());
@@ -39,7 +39,7 @@ public class UserDaoTest {
         userDao.delete(user.getId());
 
         expectedUser = userDao.getById(user.getId());
-        assert expectedUser == null;
+        assertThat(expectedUser, is(nullValue()));
     }
 
     @Test

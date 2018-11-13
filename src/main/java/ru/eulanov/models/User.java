@@ -24,6 +24,11 @@ public class User {
     private Collection<Announcement> announcements = new ArrayList<>();
 
     public User() {
+        this("empty user");
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public long getId() {
