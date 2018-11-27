@@ -22,16 +22,18 @@ public class AnnouncementDTO {
 
     public static AnnouncementDTO createFromAnnouncement(Announcement announcement) {
         AnnouncementDTO announcementDTO = new AnnouncementDTO();
-        announcementDTO.setId(announcement.getId());
-        announcementDTO.setDescription(announcement.getDescription());
-        announcementDTO.setContactInfo(announcement.getContactInfo());
-        announcement.getCar().setAnnouncement(null);
-        announcementDTO.setCar(announcement.getCar());
-        announcement.getSeller().setAnnouncements(null);
-        announcementDTO.setSeller(announcement.getSeller());
-        announcementDTO.setCreatedDate(announcement.getCreatedDate());
-        announcementDTO.setPrice(announcement.getPrice());
-        announcementDTO.setSold(announcement.isSold());
+        if (announcement != null) {
+            announcementDTO.setId(announcement.getId());
+            announcementDTO.setDescription(announcement.getDescription());
+            announcementDTO.setContactInfo(announcement.getContactInfo());
+            announcement.getCar().setAnnouncement(null);
+            announcementDTO.setCar(announcement.getCar());
+            announcement.getSeller().setAnnouncements(null);
+            announcementDTO.setSeller(announcement.getSeller());
+            announcementDTO.setCreatedDate(announcement.getCreatedDate());
+            announcementDTO.setPrice(announcement.getPrice());
+            announcementDTO.setSold(announcement.isSold());
+        }
         return announcementDTO;
     }
 

@@ -5,6 +5,7 @@ var navigation;
 var filesToUpload;
 
 $(document).ready(function () {
+    userLogin = undefined;
     navigation = $('.navbar');
     HideContentAndShowAnnouncements();
     navigation.find('.nav-item').click(function () {
@@ -43,7 +44,9 @@ $(document).ready(function () {
             contentType: false,
             success: function (responce) {
                 $('.filesToUpload').prop('value', null);
-                $('.addedImages').append(responce).append('<br>');
+                $.each(responce, function (index, value) {
+                    $('.addedImages').append(value).append('<br>');
+                });
             },
             error: function () {
                 alert("error");
@@ -63,7 +66,7 @@ function GetUser() {
     var password = $('#userPassword').val();
     $.ajax({
         type: 'POST',
-        url: $url + 'user/getByLogin',
+        url: $url + 'user/signIn',
         data: {'login': login, 'password': password},
         async: false,
         success: function (response) {
@@ -74,7 +77,6 @@ function GetUser() {
             } else {
                 userLogin = response;
                 ShowSignedUser();
-
             }
         }
     });
@@ -83,12 +85,10 @@ function GetUser() {
 function SignOut() {
     $.ajax({
         type: 'GET',
-        url: $url + 'signOut',
+        url: $url + 'user/signOut',
         async: false,
         success: function () {
-            userLogin = undefined;
-            $('#userLabel').text('');
-            ShowSignMenu();
+            location.reload();
         }
     });
 }
@@ -113,11 +113,11 @@ function ShowSignMenu() {
 
 function GetCurrentUser() {
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: $url + 'user/getCurrent',
         async: false,
         success: function (result) {
-            if (result === '$undefined') {
+            if (result === null || result.login === '$undefined') {
                 userLogin = undefined;
             } else {
                 userLogin = result;
@@ -187,7 +187,7 @@ function HideContentAndShowAnnouncementDetail() {
 
 function getImage(announId, divImage) {
     var image = $('<img>');
-    image.attr('src', 'image/get?announId=' + announId);
+    image.attr('src', 'photo/get/' + announId);
     image.appendTo(divImage);
 }
 
@@ -238,6 +238,7 @@ function AddAnnouncement() {
         success: function () {
             HideContentAndShowAnnouncements();
             FillAnnouncements();
+            $('.addedImages').clear();
         }
     });
 }
@@ -246,13 +247,18 @@ function RegisterUser() {
     var newUserName = $('#newUserName').val();
     var newUserLogin = $('#newUserLogin').val();
     var newUserPassword = $('#newUserPassword').val();
+    var user = JSON.stringify({'name': newUserName, 'login': newUserLogin, 'password': newUserPassword});
     $.ajax({
         type: 'POST',
         url: $url + 'user/add',
-        data: {'name': newUserName, 'login': newUserLogin, 'password': newUserPassword},
+        data: user,
+        contentType: "application/json",
         async: false,
         success: function () {
             HideContentAndShowAnnouncements();
+        },
+        error: function () {
+            alert("wrong");
         }
     });
 }
@@ -262,8 +268,7 @@ function FillUserAnnouncements() {
     $table.find('.removable').remove();
     $.ajax({
         type: 'GET',
-        url: $url + 'announcement/getByUser',
-        data: {'userId': userLogin.id},
+        url: $url + 'announcement/getUserAnnouncements',
         success: function (response) {
             $.each(response, function (index, announcement) {
                 var tr = $('<tr>').addClass('removable').appendTo($table);

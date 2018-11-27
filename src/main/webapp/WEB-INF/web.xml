@@ -7,149 +7,29 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
 
-    <servlet-mapping>
-        <servlet-name>default</servlet-name>
-        <url-pattern>/resources/*</url-pattern>
-    </servlet-mapping>
+    <display-name>car_sale</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-context.xml</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 
     <servlet>
-        <servlet-name>App controller</servlet-name>
-        <servlet-class>ru.eulanov.servlets.AppController</servlet-class>
+        <servlet-name>appServlet</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring-context.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>App controller</servlet-name>
+        <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>User sign in servlet</servlet-name>
-        <servlet-class>ru.eulanov.servlets.SignInServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>User sign in servlet</servlet-name>
-        <url-pattern>/user/getByLogin</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>User sign out servlet</servlet-name>
-        <servlet-class>ru.eulanov.servlets.SignOutServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>User sign out servlet</servlet-name>
-        <url-pattern>/signOut</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Get current user login</servlet-name>
-        <servlet-class>ru.eulanov.servlets.GetCurrentUserServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Get current user login</servlet-name>
-        <url-pattern>/user/getCurrent</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Get all announcements servlet</servlet-name>
-        <servlet-class>ru.eulanov.servlets.GetAllAnnouncements</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Get all announcements servlet</servlet-name>
-        <url-pattern>/announcement/getAll</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Add new Announcement</servlet-name>
-        <servlet-class>ru.eulanov.servlets.AddNewAnnouncementServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Add new Announcement</servlet-name>
-        <url-pattern>/announcement/add</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Add new User</servlet-name>
-        <servlet-class>ru.eulanov.servlets.AddNewUserServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Add new User</servlet-name>
-        <url-pattern>/user/add</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Add photo</servlet-name>
-        <servlet-class>ru.eulanov.servlets.AddPhotoServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Add photo</servlet-name>
-        <url-pattern>/photo/add</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Get Image</servlet-name>
-        <servlet-class>ru.eulanov.servlets.GetImageServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Get Image</servlet-name>
-        <url-pattern>/image/get</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Get user announcements</servlet-name>
-        <servlet-class>ru.eulanov.servlets.GetUserAnnouncementsServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Get user announcements</servlet-name>
-        <url-pattern>/announcement/getByUser</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Delete announcement</servlet-name>
-        <servlet-class>ru.eulanov.servlets.DeleteAnnouncementServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Delete announcement</servlet-name>
-        <url-pattern>/announcement/delete</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Close announcement</servlet-name>
-        <servlet-class>ru.eulanov.servlets.CloseAnnouncementServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Close announcement</servlet-name>
-        <url-pattern>/announcement/close</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>Get announcement</servlet-name>
-        <servlet-class>ru.eulanov.servlets.GetAnnouncementServlet</servlet-class>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>Get announcement</servlet-name>
-        <url-pattern>/announcement/get</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>Update Announcement</servlet-name>
-        <servlet-class>ru.eulanov.servlets.UpdateAnnouncementServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Update Announcement</servlet-name>
-        <url-pattern>/announcement/update</url-pattern>
     </servlet-mapping>
 </web-app>
