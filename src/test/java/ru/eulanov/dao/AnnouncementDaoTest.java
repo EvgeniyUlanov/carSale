@@ -16,44 +16,44 @@ import static org.hamcrest.core.IsCollectionContaining.hasItem;
 
 public class AnnouncementDaoTest {
 
-    private final static SessionFactory sessionFactory = HibernateUtil.getNewFactory();
-    private final static AnnouncementDao announcementDao = new AnnouncementDao();
-    private final static UserDao userDao = new UserDao();
-    private final static User user = new User("nikolay");
+    private final static SessionFactory SESSION_FACTORY = HibernateUtil.getNewFactory();
+    private final static AnnouncementDao ANNOUNCEMENT_DAO = new AnnouncementDao();
+    private final static UserDao USER_DAO = new UserDao();
+    private final static User USER = new User("nikolay");
 
     @BeforeClass
     public static void init() {
-        announcementDao.setSessionFactory(sessionFactory);
-        userDao.setSessionFactory(sessionFactory);
-        userDao.create(user);
+        ANNOUNCEMENT_DAO.setSessionFactory(SESSION_FACTORY);
+        USER_DAO.setSessionFactory(SESSION_FACTORY);
+        USER_DAO.create(USER);
     }
 
     @AfterClass
     public static void close() {
-        if (sessionFactory != null) {
-            sessionFactory.close();
+        if (SESSION_FACTORY != null) {
+            SESSION_FACTORY.close();
         }
     }
 
     @Test
     public void createGetUpdateDeleteAnnouncementTest() {
         Announcement newAnnouncement = new Announcement();
-        newAnnouncement.setSeller(user);
+        newAnnouncement.setSeller(USER);
         newAnnouncement.setDescription("new description");
-        announcementDao.create(newAnnouncement);
+        ANNOUNCEMENT_DAO.create(newAnnouncement);
         long announcementId = newAnnouncement.getId();
-        Announcement expected = announcementDao.getById(announcementId);
+        Announcement expected = ANNOUNCEMENT_DAO.getById(announcementId);
 
         assertThat(expected, is(newAnnouncement));
 
         newAnnouncement.setDescription("updated description");
-        announcementDao.update(newAnnouncement);
-        expected = announcementDao.getById(announcementId);
+        ANNOUNCEMENT_DAO.update(newAnnouncement);
+        expected = ANNOUNCEMENT_DAO.getById(announcementId);
 
         assertThat(expected.getDescription(), is("updated description"));
 
-        announcementDao.delete(announcementId);
-        expected = announcementDao.getById(announcementId);
+        ANNOUNCEMENT_DAO.delete(announcementId);
+        expected = ANNOUNCEMENT_DAO.getById(announcementId);
 
         assertThat(expected, is(nullValue()));
     }
@@ -62,14 +62,14 @@ public class AnnouncementDaoTest {
     public void getAllAnnouncementTest() {
         Announcement firstAnnouncement = new Announcement();
         Announcement secondAnnouncement = new Announcement();
-        firstAnnouncement.setSeller(user);
-        secondAnnouncement.setSeller(user);
+        firstAnnouncement.setSeller(USER);
+        secondAnnouncement.setSeller(USER);
         firstAnnouncement.setDescription("first description");
         secondAnnouncement.setDescription("second description");
-        announcementDao.create(firstAnnouncement);
-        announcementDao.create(secondAnnouncement);
+        ANNOUNCEMENT_DAO.create(firstAnnouncement);
+        ANNOUNCEMENT_DAO.create(secondAnnouncement);
 
-        Collection<Announcement> announcements = announcementDao.getAll();
+        Collection<Announcement> announcements = ANNOUNCEMENT_DAO.getAll();
 
         assertThat(announcements, hasItem(firstAnnouncement));
         assertThat(announcements, hasItem(secondAnnouncement));
@@ -78,14 +78,14 @@ public class AnnouncementDaoTest {
     @Test
     public void closeAnnouncementTest() {
         Announcement announcement = new Announcement();
-        announcement.setSeller(user);
+        announcement.setSeller(USER);
         announcement.setDescription("description");
-        announcementDao.create(announcement);
+        ANNOUNCEMENT_DAO.create(announcement);
 
         assertThat(announcement.isSold(), is(false));
 
-        announcementDao.closeAnnouncement(announcement.getId());
-        announcement = announcementDao.getById(announcement.getId());
+        ANNOUNCEMENT_DAO.closeAnnouncement(announcement.getId());
+        announcement = ANNOUNCEMENT_DAO.getById(announcement.getId());
 
         assertThat(announcement.isSold(), is(true));
     }
@@ -94,12 +94,12 @@ public class AnnouncementDaoTest {
     public void testGetAllOpenAnnouncements() {
         Announcement openAnnouncement = new Announcement();
         Announcement closedAnnouncement = new Announcement();
-        openAnnouncement.setSeller(user);
-        closedAnnouncement.setSeller(user);
+        openAnnouncement.setSeller(USER);
+        closedAnnouncement.setSeller(USER);
         closedAnnouncement.setSold(true);
-        announcementDao.create(openAnnouncement);
-        announcementDao.create(closedAnnouncement);
-        Collection<Announcement> announcements = announcementDao.getAllOpenAnnouncements();
+        ANNOUNCEMENT_DAO.create(openAnnouncement);
+        ANNOUNCEMENT_DAO.create(closedAnnouncement);
+        Collection<Announcement> announcements = ANNOUNCEMENT_DAO.getAllOpenAnnouncements();
 
         assertThat(announcements, hasItem(openAnnouncement));
         assertThat(announcements, not(hasItem(closedAnnouncement)));
@@ -108,25 +108,24 @@ public class AnnouncementDaoTest {
     @Test
     public void testGetAllUserAnnouncement() {
         User ivan = new User("ivan");
-        ivan.setId(3);
-        userDao.create(ivan);
+        USER_DAO.create(ivan);
         Announcement ivanOpenAnnouncement = new Announcement();
         ivanOpenAnnouncement.setSeller(ivan);
         Announcement ivanClosedAnnouncement = new Announcement();
         ivanClosedAnnouncement.setSeller(ivan);
         ivanClosedAnnouncement.setSold(true);
-        announcementDao.create(ivanOpenAnnouncement);
-        announcementDao.create(ivanClosedAnnouncement);
+        ANNOUNCEMENT_DAO.create(ivanOpenAnnouncement);
+        ANNOUNCEMENT_DAO.create(ivanClosedAnnouncement);
         Announcement nikolaysAnnouncement = new Announcement();
-        nikolaysAnnouncement.setSeller(user);
-        announcementDao.create(nikolaysAnnouncement);
+        nikolaysAnnouncement.setSeller(USER);
+        ANNOUNCEMENT_DAO.create(nikolaysAnnouncement);
 
-        Collection<Announcement> announcements = announcementDao.getUserAnnouncement(ivan.getId());
+        Collection<Announcement> announcements = ANNOUNCEMENT_DAO.getUserAnnouncement(ivan.getId());
 
         assertThat(announcements, hasItem(ivanOpenAnnouncement));
         assertThat(announcements, hasItem(ivanClosedAnnouncement));
         assertThat(announcements, not(hasItem(nikolaysAnnouncement)));
 
-        userDao.delete(ivan.getId());
+        USER_DAO.delete(ivan.getId());
     }
 }

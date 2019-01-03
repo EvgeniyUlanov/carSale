@@ -3,16 +3,20 @@ package ru.eulanov.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.function.Function;
 
-public abstract class BasicDao<T> {
+@Transactional
+public class BasicDao<T> {
 
     private final Class<T> entityClass;
+    @Autowired
     private SessionFactory sessionFactory;
 
     public BasicDao(Class<T> entityClass) {

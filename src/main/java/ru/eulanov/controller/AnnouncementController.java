@@ -1,6 +1,7 @@
 package ru.eulanov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.eulanov.dao.AnnouncementDao;
 import ru.eulanov.dto.AnnouncementDTO;
@@ -29,8 +30,8 @@ public class AnnouncementController {
     }
 
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public AnnouncementDTO getAnnouncement(HttpServletRequest req) {
-        Announcement announcement = announcementDao.getById(Long.parseLong(req.getParameter("announcementId")));
+    public AnnouncementDTO getAnnouncement(@RequestParam String announcementId) {
+        Announcement announcement = announcementDao.getById(Long.parseLong(announcementId));
         AnnouncementDTO announcementDTO = null;
         if (announcement != null) {
             announcementDTO = AnnouncementDTO.createFromAnnouncement(announcement);
@@ -39,9 +40,9 @@ public class AnnouncementController {
     }
 
     @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public Collection<AnnouncementDTO> getAllAnnouncement(HttpServletRequest req) {
-        String filter = req.getParameter("filter");
-        String brand = req.getParameter("searchingBrand");
+    public Collection<AnnouncementDTO> getAllAnnouncement(@RequestParam Map<String, String> params) {
+        String filter = params.get("filter");
+        String brand = params.get("searchingBrand");
         Collection<Announcement> list;
         switch (filter) {
             case "all":
@@ -69,9 +70,9 @@ public class AnnouncementController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.GET)
-    public String deleteAnnouncement(@RequestParam String announcementId) {
+    public HttpStatus deleteAnnouncement(@RequestParam String announcementId) {
         announcementDao.delete(Long.parseLong(announcementId));
-        return "ok";
+        return HttpStatus.OK;
     }
 
     @RequestMapping(value = "/getUserAnnouncements", method = RequestMethod.GET)
@@ -91,42 +92,42 @@ public class AnnouncementController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addAnnouncement(HttpServletRequest req) {
-        User user = (User) req.getSession().getAttribute("currentUser");
-        String result;
+    public HttpStatus addAnnouncement(HttpSession httpSession, @RequestParam Map<String, String> params) {
+        User user = (User) httpSession.getAttribute("currentUser");
+        HttpStatus status;
         if (user != null) {
-            Announcement announcement = getFromSessionOrCreateAnnouncement(req.getSession());
+            Announcement announcement = getFromSessionOrCreateAnnouncement(httpSession);
             announcement.setSeller(user);
             announcement.setCreatedDate(new Timestamp(System.currentTimeMillis()));
-            announcement.setContactInfo(req.getParameter("contact"));
-            announcement.setDescription(req.getParameter("description"));
+            announcement.setContactInfo(params.get("contact"));
+            announcement.setDescription(params.get("description"));
             Car car = new Car();
-            car.setBrand(req.getParameter("carBrand"));
-            car.setModel(req.getParameter("carModel"));
-            car.setVin(req.getParameter("vin"));
-            car.setYear(req.getParameter("year"));
+            car.setBrand(params.get("carBrand"));
+            car.setModel(params.get("carModel"));
+            car.setVin(params.get("vin"));
+            car.setYear(params.get("year"));
             try {
-                car.setRun(Integer.parseInt(req.getParameter("run")));
-                car.setEnginePower(Integer.parseInt(req.getParameter("enginePower")));
+                car.setRun(Integer.parseInt(params.get("run")));
+                car.setEnginePower(Integer.parseInt(params.get("enginePower")));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-            car.setColor(req.getParameter("color"));
-            car.setEngineType(req.getParameter("engineType"));
+            car.setColor(params.get("color"));
+            car.setEngineType(params.get("engineType"));
             announcement.setCar(car);
             car.setAnnouncement(announcement);
             try {
-                announcement.setPrice(Integer.parseInt(req.getParameter("price")));
+                announcement.setPrice(Integer.parseInt(params.get("price")));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
             announcementDao.create(announcement);
-            req.getSession().setAttribute("currentAnnouncement", new Announcement());
-            result = "ok";
+            httpSession.setAttribute("currentAnnouncement", new Announcement());
+            status = HttpStatus.OK;
         } else {
-            result = "something goes wrong, cannot create announcement";
+            status = HttpStatus.BAD_REQUEST;
         }
-        return result;
+        return status;
     }
 
     private static Announcement getFromSessionOrCreateAnnouncement(HttpSession session) {

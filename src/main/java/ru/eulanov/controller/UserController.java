@@ -1,6 +1,7 @@
 package ru.eulanov.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.eulanov.dao.UserDao;
 import ru.eulanov.dto.UserDTO;
@@ -31,8 +32,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signIn", method = RequestMethod.POST)
-    public UserDTO signInUser(@RequestParam Map<String, String> params, HttpServletRequest req) {
-        HttpSession session = req.getSession();
+    public UserDTO signInUser(@RequestParam Map<String, String> params, HttpSession session) {
         User currentUser = (User) session.getAttribute("currentUser");
         if (currentUser == null) {
             currentUser = userDao.getByLogin(params.get("login"));
@@ -45,8 +45,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signOut", method = RequestMethod.GET)
-    public String signOut(HttpSession session) {
+    public HttpStatus signOut(HttpSession session) {
         session.invalidate();
-        return "ok";
+        return HttpStatus.OK;
     }
 }
